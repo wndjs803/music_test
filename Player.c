@@ -34,6 +34,7 @@ int main() {
     char* ms;
     int index;
 
+
     scanf("%d", cmdNumber);
     for(int i=0; i<cmdNumber; i++){
         scanf("%s", cmd);
