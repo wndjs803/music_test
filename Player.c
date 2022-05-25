@@ -13,6 +13,7 @@ int main() {
     Node** musictitle = NULL;
 
 
+
     scanf("%d", &songNumber);
     musictitle = (Node**)malloc(sizeof(Node*) * songNumber);
     for(int i=0; i<songNumber; i++){
