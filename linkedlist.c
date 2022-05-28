@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "linkedlist.h"
 
@@ -29,8 +30,7 @@ void print() {
 	Node* ptr;
 	ptr = _head;
 	ptr = ptr->next;
-	int count = size();
-	int i;
+
 	while(ptr != NULL) {
 		printf("%s ", *(ptr->data));
 		ptr = ptr->next;
@@ -42,7 +42,8 @@ void print_file(FILE* stream) {
 }
 
 void clear() {
-
+    _head->next = _tail;
+    _tail->prev = _head;
 }
 
 Node* append_left(size_t n, char new_data[n]) {
@@ -69,7 +70,16 @@ Node* append_left(size_t n, char new_data[n]) {
 }
 
 Node* insert_after(Node* cur_node, Node* new_node) {
+    Node* left = _cur_node;
+    Node* right = _cur_node->next;
 
+    left->next = new_node;
+    new_node->next = right;
+    new_node->prev = left;
+    right->prev = new_node;
+
+    _cur_node = new_node;
+    return _cur_node;
 }
 
 Node* append(size_t n, char new_data[n]) {
@@ -95,7 +105,14 @@ Node* append(size_t n, char new_data[n]) {
 }
 
 Node* delete_node(Node* _cur_node) {
-	_cur_node->next
+    Node* left = _cur_node-> prev;
+    Node* right = _cur_node->next;
+
+	left->next = right;
+	right->prev = left;
+
+	_cur_node = left;
+	return left;
 }
 
 Node* delete(char* data) {
@@ -128,3 +145,4 @@ Node* next() {
 Node* prev() {
 	return _cur_node->prev;
 }
+
