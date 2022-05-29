@@ -58,15 +58,14 @@ Node* append_left(size_t n, char new_data[n]) {
 
         return new_node;
     }
-
-    last()->next = new_node;
-    new_node->prev = last();
-    new_node->next = _tail;
-    _tail->prev = new_node;
+    Node* ptr = _head->next;
+    new_node->prev = _haed;
+    new_node->next = ptr;
+    _haed->next = new_node;
+    ptr->prev = new_node;
     new_node->data = new_data[n];
 
     return new_node;
-
 }
 
 Node* insert_after(Node* cur_node, Node* new_node) {
@@ -95,10 +94,11 @@ Node* append(size_t n, char new_data[n]) {
         return new_node;
     }
 
-    first()->prev = new_node;
-    new_node->next = first();
-    new_node->prev = _head;
-    _head->next = new_node;
+    Node* ptr = _tail->prev;
+    new_node->prev = ptr;
+    new_node->next = _tail;
+    ptr->next = new_node;
+    _tail->prev = new_node;
     new_node->data = new_data[n];
 
     return new_node;
@@ -145,4 +145,5 @@ Node* next() {
 Node* prev() {
 	return _cur_node->prev;
 }
+
 
