@@ -6,49 +6,50 @@ int read_command(char* cmd);
 
 int main() {
     int songNumber=0;
-    char songName[10];
+    char songName[10][10];
     int cmdNumber=0;
     char cmd[5];
 
     Node* cur_node;
-
+    cur_node = (Node*)malloc(sizeof(Node));
+    static int i;
     scanf("%d", &songNumber);
-    for(int i=0; i<songNumber; i++){
-        scanf("%s", songName);
-        cur_node=append(strlen(songName), songName);
+    for(i=0; i<songNumber; i++){
+        scanf("%s", songName[i]);
+        cur_node=append(strlen(songName[i]), songName[i]);
     }
-
+    char ms[10];
     int index;
-    int i=0;
-
+    int count =0;
     scanf("%d", &cmdNumber);
-    while (i<cmdNumber){
-        i++;
+    while (count<cmdNumber){
+        count++;
         scanf("%s", cmd);
         switch(read_command(cmd)){
             case 1:
                 //add
-                scanf("%s", songName);
-                cur_node=append(strlen(songName), songName);
+                scanf("%s", songName[i]);
+                cur_node=append(strlen(songName[i]), songName[i]);
+                i++;
                 break;
-//            case 2:
+            case 2:
 //                //del
 //                scanf("%s", ms);
 //                delete(ms);
-//                delete_node(_cur_node);
+//                delete_node(cur_node);
 //                break;
             case 3:
                 //list
                 print();
                 break;
-//            case 4:
-//                //next
-//                next();
-//                break;
-//            case 5:
-//                //prev
-//                prev();
-//                break;
+            case 4:
+                //next
+                cur_node = next();
+                break;
+            case 5:
+                //prev
+                cur_node = prev();
+                break;
 //            case 6:
 //                //move
 //                scanf("%d", &index);
@@ -66,7 +67,6 @@ int main() {
 //                //quit
 //                clear();
                 return 0;
-                break;
 //            case 10:
 //                //load
 //                scanf("%s", ms);
