@@ -129,12 +129,11 @@ Node* delete_node(Node* _cur_node) {
     Node* left = cur-> prev;
     Node* right = cur->next;
 
-	left->next = right;
-	right->prev = left;
-	_cur_node = left;
-
-	free(cur);
-	return left;
+    left->next = right;
+    right->prev = left;
+    _cur_node = lefi;
+    free(cur);
+    return left;
 }
 
 Node* delete_title(char* data) {
