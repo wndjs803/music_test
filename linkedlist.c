@@ -10,12 +10,12 @@ static Node* _tail = NULL;
 static Node* _cur_node = NULL;
 
 bool empty() {
-	if(_cur_node == NULL)	return true;
+	if(_head->next == _tail)	return true;
 	else return false;
 }
 
 size_t size() {
-	Node* ptr;
+	Node* ptr = (Node*)malloc(sizeof(Node));
 	ptr = _head;
 	ptr = ptr->next;
 	int count=0;
@@ -27,7 +27,7 @@ size_t size() {
 }
 
 void print() {
-	Node* ptr;
+	Node* ptr = (Node*)malloc(sizeof(Node));
 	ptr = _head;
 	ptr = ptr->next;
 
@@ -38,9 +38,9 @@ void print() {
 }
 
 void print_file(FILE* stream) {
-    Node* ptr;
-	ptr = _head;
-	ptr = ptr->next;
+    Node* ptr = (Node*)malloc(sizeof(Node));
+    ptr = _head;
+    ptr = ptr->next;
 
     while(ptr != NULL) {
 		frintf(stream, *(ptr->data));
@@ -49,7 +49,8 @@ void print_file(FILE* stream) {
 }
 
 void clear() {
-    Node* ptr = _head->next;
+    Node* ptr = (Node*)malloc(sizeof(Node));
+    ptr = _head->next;
     while(ptr!= NULL) {
         free(ptr);
         ptr = ptr->next;
@@ -82,8 +83,10 @@ Node* append_left(size_t n, char new_data[n]) {
 }
 
 Node* insert_after(Node* cur_node, Node* new_node) {
-    Node* left = _cur_node;
-    Node* right = _cur_node->next;
+    Node* left = (Node*)malloc(sizeof(Node)); 
+    Node* right = (Node*)malloc(sizeof(Node)); 
+    left = _cur_node;
+    right = _cur_node->next;
 
     left->next = new_node;
     new_node->next = right;
