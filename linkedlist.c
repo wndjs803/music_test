@@ -119,7 +119,6 @@ Node* append(size_t n, char new_data[n]) {
     _tail->prev = new_node;
     new_node->data = new_data;
     _cur_node = new_node;
-
     return new_node;
 }
 
@@ -157,7 +156,6 @@ Node* get_node(size_t index) {
 
 	for(i=0; i<index; i++)
 		ptr = ptr->next;
-
 	return ptr;
 }
 
