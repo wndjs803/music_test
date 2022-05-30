@@ -33,9 +33,7 @@ void write_file(char* file_name) {
 	FILE *fp;
 	fp = fopen(file_name, "w");
 	
-	char buffer[MAX_TITLE_SIZE] = { 0, };
-	//initialize buffer
-	fputs(buffer, fp);
+	print_file(fp);
 
 	fclose(fp);
 }
