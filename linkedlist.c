@@ -78,7 +78,6 @@ Node* append_left(size_t n, char new_data[n]) {
     _haed->next = new_node;
     ptr->prev = new_node;
     new_node->data = new_data;
-
     return new_node;
 }
 
