@@ -1,6 +1,7 @@
 #include <malloc.h>
 #include <string.h>
 #include "linkedlist.h"
+#include "textfilewriter.h"
 
 int read_command(char* cmd);
 
@@ -33,11 +34,10 @@ int main() {
                 i++;
                 break;
             case 2:
-//                //del
-//                scanf("%s", ms);
-//                delete(ms);
-//                delete_node(cur_node);
-//                break;
+                //del
+                scanf("%s", ms);
+                cur_node = delete(ms);
+                break;
             case 3:
                 //list
                 print();
@@ -50,11 +50,11 @@ int main() {
                 //prev
                 cur_node = prev();
                 break;
-//            case 6:
-//                //move
-//                scanf("%d", &index);
-//                insert_after(index);
-//                break;
+            case 6:
+                //move
+                scanf("%d", &index);
+                cur_node = insert_after(cur_node, get_node(index));
+                break;
             case 7:
                 //play
                 printf("%s is now playing!\n", cur_node->data);
@@ -70,10 +70,12 @@ int main() {
 //            case 10:
 //                //load
 //                scanf("%s", ms);
+//                read_file(ms);
 //                break;
 //            case 11:
 //                //save
 //                scanf("%s", ms);
+//                write_file(ms);
 //                break;
         }
     }
