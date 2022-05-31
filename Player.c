@@ -8,7 +8,7 @@ int read_command(char* cmd);
 int main() {
     int songNumber=0;
     char songName[10][10];
-    int cmdNumber=0;
+    static int cmdNumber=0;
     char cmd[5];
 
     Node* cur_node;
@@ -59,13 +59,13 @@ int main() {
                 //play
                 printf("%s is now playing!\n", cur_node->data);
                 break;
-//            case 8:
-//                //clear
-//                clear();
-//                break;
+            case 8:
+                //clear
+                clear();
+                break;
             case 9:
-//                //quit
-//                clear();
+                //quit
+                clear();
                 return 0;
 //            case 10:
 //                //load

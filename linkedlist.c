@@ -41,9 +41,29 @@ void print() {
 //
 //}
 //
-//void clear() {
-//
-//}
+void clear() {
+    Node* ptr;
+    Node* ptr_prev;
+
+    if(empty()){
+        printf("LinkedList is cleared!\n");
+    }
+    else{
+        ptr = _head;
+        while(true){
+            ptr_prev = ptr;
+            ptr = ptr->next;
+            free(ptr_prev);
+            if(ptr == _tail) {
+                free(ptr);
+                break;
+            }
+        }
+
+        printf("LinkedList is cleared!\n");
+    }
+    _cur_node = NULL;
+}
 
 Node* append_left(size_t n, char new_data[n]) {
     Node* new_node;
