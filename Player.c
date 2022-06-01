@@ -6,49 +6,37 @@
 int read_command(char* cmd);
 
 int main() {
-    int songNumber;
-    Node* songName;
-    int cmdNumber;
+    int songNumber=0;
+    char songName[10][10];
+    static int cmdNumber=0;
     char cmd[5];
-    Node** musictitle = NULL;
 
-
-
+    Node* cur_node;
+    cur_node = (Node*)malloc(sizeof(Node));
+    static int i;
     scanf("%d", &songNumber);
-    musictitle = (Node**)malloc(sizeof(Node*) * songNumber);
-    for(int i=0; i<songNumber; i++){
-        musictitle[i] = (Node*)malloc(sizeof(Node) * 10);
+    for(i=0; i<songNumber; i++){
+        scanf("%s", songName[i]);
+        cur_node=append(strlen(songName[i]), songName[i]);
     }
-    for(int i=0; i<songNumber; i++){
-        scanf("%s", songName->data);
-        if(i==0){
-            musictitle[i]->prev = _head;}
-        else{
-            musictitle[i]->prev = musictitle[i-1];}
-        musictitle[i]->data = songName->data;
-        if(i == songNumber-1){
-            musictitle[i]->next = _tail;}
-        else{
-            musictitle[i]->next = musictitle[i+1];
-        }
-    }
-    char* ms;
+    char ms[10];
     int index;
-
-
-    scanf("%d", cmdNumber);
-    for(int i=0; i<cmdNumber; i++){
+    int count =0;
+    scanf("%d", &cmdNumber);
+    while (count<cmdNumber){
+        count++;
         scanf("%s", cmd);
         switch(read_command(cmd)){
             case 1:
                 //add
-                scanf("%s", ms);
-                append(strlen(ms), ms);
+                scanf("%s", songName[i]);
+                cur_node=append(strlen(songName[i]), songName[i]);
+                i++;
                 break;
             case 2:
                 //del
                 scanf("%s", ms);
-                delete(ms);
+                cur_node = delete(ms);
                 break;
             case 3:
                 //list
@@ -56,21 +44,20 @@ int main() {
                 break;
             case 4:
                 //next
-                next();
+                cur_node = next();
                 break;
             case 5:
                 //prev
-                prev();
+                cur_node = prev();
                 break;
             case 6:
                 //move
                 scanf("%d", &index);
-                insert_after(index);
+                cur_node = insert_after(cur_node, get_node(index));
                 break;
             case 7:
                 //play
-                print();
-                return 0;
+                printf("%s is now playing!\n", cur_node->data);
                 break;
             case 8:
                 //clear
@@ -80,15 +67,16 @@ int main() {
                 //quit
                 clear();
                 return 0;
-                break;
-            case 10:
-                //load
-                scanf("%s", ms);
-                break;
-            case 11:
-                //save
-                scanf("%s", ms);
-                break;
+//            case 10:
+//                //load
+//                scanf("%s", ms);
+//                read_file(ms);
+//                break;
+//            case 11:
+//                //save
+//                scanf("%s", ms);
+//                write_file(ms);
+//                break;
         }
     }
 }
