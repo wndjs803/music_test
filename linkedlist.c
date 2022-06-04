@@ -69,7 +69,7 @@ Node* append_left(size_t n, char new_data[n]) {
     new_node = (Node*)malloc(sizeof(Node));
 
     if(empty()) {
-        new_node->data = new_data;
+        strcpy(new_node->data, new_data);
         _head->next = new_node;
         new_node->prev = _head;
         new_node->next = _tail;
@@ -84,7 +84,7 @@ Node* append_left(size_t n, char new_data[n]) {
     new_node->next = ptr;
     _haed->next = new_node;
     ptr->prev = new_node;
-    new_node->data = new_data;
+    strcpy(new_node->data, new_data);
     _cur_node = new_node;
 
     return new_node;
@@ -108,8 +108,8 @@ Node* append(size_t n, char new_data[n]) {
     new_node = (Node*)malloc(sizeof(Node));
 
     if(empty()) {
-        new_node->data = new_data;
-        _head->next = new_node;
+        strcpy(new_node->data, new_data);
+	_head->next = new_node;
         new_node->prev = _head->next;
         new_node->next = _tail;
         _tail->prev = new_node;
@@ -123,7 +123,7 @@ Node* append(size_t n, char new_data[n]) {
     new_node->next = _tail;
     ptr->next = new_node;
     _tail->prev = new_node;
-    new_node->data = new_data;
+    strcpy(new_node->data, new_data);
     _cur_node = new_node;
 
     return new_node;
