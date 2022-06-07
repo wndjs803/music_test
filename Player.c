@@ -7,7 +7,7 @@ int read_command(char* cmd);
 
 int main() {
     int songNumber=0;
-    char songName[10][10];
+    char songName[10][MAX_TITLE_SIZE];
     static int cmdNumber=0;
     char cmd[5];
 
@@ -36,7 +36,7 @@ int main() {
             case 2:
                 //del
                 scanf("%s", ms);
-                cur_node = delete(ms);
+                cur_node = delete_by_data(ms);
                 break;
             case 3:
                 //list
@@ -67,16 +67,16 @@ int main() {
                 //quit
                 clear();
                 return 0;
-//            case 10:
-//                //load
-//                scanf("%s", ms);
-//                read_file(ms);
-//                break;
-//            case 11:
-//                //save
-//                scanf("%s", ms);
-//                write_file(ms);
-//                break;
+            case 10:
+                //load
+                scanf("%s", ms);
+                read_file(ms);
+                break;
+            case 11:
+                //save
+                scanf("%s", ms);
+                write_file(ms);
+                break;
         }
     }
 }

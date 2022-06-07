@@ -17,8 +17,8 @@ size_t size() {
     Node* ptr;
     ptr = _head;
     ptr = ptr->next;
-    int count=0;
-    while(ptr != NULL) {
+    size_t count=0;
+    while(ptr != _tail) {
         ptr = ptr->next;
         count++;
     }
@@ -37,10 +37,19 @@ void print() {
     printf("]\n");
 }
 
-//void print_file(FILE* stream) {
-//
-//}
-//
+void print_file(FILE* stream) {
+    Node* ptr;
+    ptr = _tail->prev;
+    fprintf(stream, "%d", size());
+    fprintf(stream, "\n");
+
+    while(ptr != _head) {
+        fprintf(stream, (ptr->data));
+        fprintf(stream, "\n");
+        ptr = ptr->prev;
+    }
+}
+
 void clear() {
     Node* ptr;
     Node* ptr_prev;
@@ -67,7 +76,6 @@ void clear() {
 
 Node* append_left(size_t n, char new_data[n]) {
     Node* new_node;
-
     new_node = (Node*)malloc(sizeof(Node));
     if(empty()) {
         _head = (Node*)malloc(sizeof(Node));
@@ -81,18 +89,17 @@ Node* append_left(size_t n, char new_data[n]) {
         return new_node;
     }
 
-    last()->next = new_node;
-    new_node->prev = last();
+    Node* ptr = _tail->prev;
+    new_node->prev = ptr;
     new_node->next = _tail;
+    ptr->next = new_node;
     _tail->prev = new_node;
     new_node->data = new_data;
     _cur_node = new_node;
-
     return new_node;
 }
 
 Node* insert_after(Node* cur_node, Node* new_node) {
-
     Node* cur_left = _cur_node->prev;
     Node* cur_right = _cur_node->next;
     Node* new_right = new_node->next;
@@ -108,7 +115,6 @@ Node* insert_after(Node* cur_node, Node* new_node) {
 }
 
 Node* append(size_t n, char new_data[n]) {
-
     Node* new_node;
     new_node = (Node*)malloc(sizeof(Node));
     if(empty()) {
@@ -120,64 +126,71 @@ Node* append(size_t n, char new_data[n]) {
         new_node->data = new_data;
         _tail->prev = new_node;
         _cur_node = new_node;
-
         return new_node;
+
     }
 
-    first()->prev = new_node;
-    new_node->next = first();
+    Node* ptr = _head->next;
     new_node->prev = _head;
+    new_node->next = ptr;
     _head->next = new_node;
+    ptr->prev = new_node;
     new_node->data = new_data;
     _cur_node = new_node;
-
     return new_node;
 }
 
 Node* delete_node(Node* _cur_node) {
-    Node* left = _cur_node-> prev;
-    Node* right = _cur_node->next;
+    Node* cur;
+    cur = _cur_node;
+
+    Node* left = cur-> prev;
+    Node* right = cur->next;
 
     left->next = right;
     right->prev = left;
-
     _cur_node = left;
-    return left;
+
+    free(cur);
+    return _cur_node;
 }
 
-Node* delete(char* data) {
+Node* delete_by_data(char* data) {
     Node* ptr;
     ptr = _tail;
 
-    while (true){
+    while (ptr!=_head){
         ptr = ptr->prev;
         if(!strcmp(ptr->data,data)){
             _cur_node = delete_node(ptr);
             break;
         }
     }
-
     return _cur_node;
 }
 
 Node* get_node(size_t index) {
+    if(size()<index) return NULL;
+
     Node* ptr;
     ptr = _tail;
     int i;
+
     for(i=0; i<index; i++){
-        if(ptr->prev = _head){
-            ptr = ptr;}
-        else ptr = ptr->prev;
+        ptr = ptr->prev;
     }
+
     return ptr;
 }
 
-Node* first() {
-    return _cur_node = _head->next;
+Node* first_node() {
+    if(empty()) return NULL;
+    else return _cur_node = _head->next;
 }
 
-Node* last() {
-    return _tail->prev;
+Node* last_node() {
+    if(empty()) return NULL;
+    else return _tail->prev;
 }
 
 Node* next() {
