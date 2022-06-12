@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "linkedlist.h"
+#include "../include/linkedlist.h"
 
 static Node* _head = NULL;
 static Node* _tail = NULL;
