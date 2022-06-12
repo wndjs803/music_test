@@ -38,17 +38,22 @@ CXXFLAGS += -g -Wall -Wextra -pthread
 # created to the list.
 
 TESTS  = test_player
-SRCS  := $(wildcard $(TEST_DIR)/*.c)
+TEST_SRCS  := $(wildcard $(TEST_DIR)/*.cpp)
+SRCS  := $(wildcard $(SRC_DIR)/*.c)
 HEADERS := $(wildcard $(INCLUDE_DIR)/*.h)
 LIBS  := $(wildcard $(LIB_DIR)/*.c)
 OBJS  := $(LIBS:$(LIB_DIR)/%.c=$(BUILD_DIR)/$(OBJ_DIR)/%.o) 
 #$(SRCS:$(TEST_DIR)/%.c=$(BUILD_DIR)/$(OBJ_DIR)/%.o)
-EXECS := $(SRCS:$(TEST_DIR)/%.c=$(BUILD_DIR)/$(EXEC_DIR)/%)
+TEST_EXECS := $(TEST_SRCS:$(TEST_DIR)/%.cpp=$(BUILD_DIR)/$(EXEC_DIR)/%)
+EXECS := $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/$(EXEC_DIR)/%)
 
 BUILD_SUB_DIR := $(OBJ_DIR) $(EXEC_DIR)
 MAKE_DIR := $(BUILD_DIR) $(BUILD_SUB_DIR:%=$(BUILD_DIR)/%)
 
+GTEST_ALL_OBJ := $(BUILD_DIR)/$(OBJ_DIR)/gtest-all.o
+
 $(info SRCS $(SRCS) LIBS $(LIBS))
+$(info TEST_SRCS $(TEST_SRCS) TEST_EXECS $(TEST_EXECS))
 $(info OBJS $(OBJS) EXECS $(EXECS))
 $(info MAKE_DIR $(MAKE_DIR) HEADERS $(HEADERS))
 
@@ -59,13 +64,13 @@ GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
 
 # House-keeping build targets.
 
-all : build_dir $(EXECS)
+all : build_dir $(EXECS) $(TEST_EXECS)
 
 clean :
-	rm -rf $(EXECS) gtest.a gtest_main.a *.o $(BUILD_DIR)
+	rm -rf $(TEST_EXECS) gtest.a gtest_main.a *.o $(BUILD_DIR)
 
 test :
-	$(EXECS)
+	$(TEST_EXECS)
 
 # Builds gtest.a and gtest_main.a.
 
@@ -77,18 +82,18 @@ GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
 # implementation details, the dependencies specified below are
 # conservative and not optimized.  This is fine as Google Test
 # compiles fast and for ordinary users its source rarely changes.
-gtest-all.o : $(GTEST_SRCS_)
+$(GTEST_ALL_OBJ) : $(GTEST_SRCS_)
 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
-            $(GTEST_DIR)/src/gtest-all.cc
+            $(GTEST_DIR)/src/gtest-all.cc -o $@
 
 gtest_main.o : $(GTEST_SRCS_)
 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
             $(GTEST_DIR)/src/gtest_main.cc
 
-gtest.a : gtest-all.o
+gtest.a : $(GTEST_ALL_OBJ)
 	$(AR) $(ARFLAGS) $@ $^
 
-$(BUILD_DIR)/$(OBJ_DIR)/gtest_main.a : gtest-all.o gtest_main.o
+$(BUILD_DIR)/$(OBJ_DIR)/gtest_main.a : $(GTEST_ALL_OBJ) gtest_main.o
 	$(AR) $(ARFLAGS) $@ $^
 
 # Builds a sample test.  A test should link with either gtest.a or
@@ -106,7 +111,9 @@ build_dir : |$(MAKE_DIR)
 $(MAKE_DIR):
 	mkdir -p $(MAKE_DIR)
 
-$(EXECS) : $(SRCS) $(OBJS) $(HEADERS) gtest-all.o#$(BUILD_DIR)/$(OBJ_DIR)/gtest_main.a
+$(TEST_EXECS) : $(TEST_SRCS) $(OBJS) $(HEADERS) $(GTEST_ALL_OBJ)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(INCLUDE_DIR) -lpthread $^ -o $@
 
 
+$(EXECS) : $(SRCS) $(OBJS) $(HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(INCLUDE_DIR) $^ -o $@
