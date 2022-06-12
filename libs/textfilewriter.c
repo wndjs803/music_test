@@ -1,5 +1,5 @@
-#include "textfilewriter.h"
-#include "linkedlist.h"
+#include "../include/textfilewriter.h"
+#include "../include/linkedlist.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
