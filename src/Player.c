@@ -1,7 +1,7 @@
 #include <malloc.h>
 #include <string.h>
-#include "linkedlist.h"
-#include "textfilewriter.h"
+#include "../include/linkedlist.h"
+#include "../include/textfilewriter.h"
 
 int read_command(char* cmd);
 
