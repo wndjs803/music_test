@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stddef.h>
-#include "node.h"
+#include "./node.h"
 
 bool empty();
 size_t size();
